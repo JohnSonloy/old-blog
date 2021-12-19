@@ -100,4 +100,9 @@
         <tag>图</tag>
       </tags>
   </entry>
+  <entry>
+    <title>test</title>
+    <url>/test/</url>
+    <content><![CDATA[]]></content>
+  </entry>
 </search>
