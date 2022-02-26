@@ -459,7 +459,20 @@
   <entry>
     <title>组合数学</title>
     <url>/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/</url>
-    <content><![CDATA[<h1 id="组合数"><a href="#组合数" class="headerlink" title="组合数"></a>组合数</h1><h2 id="容斥-先鸽着吧"><a href="#容斥-先鸽着吧" class="headerlink" title="容斥 先鸽着吧"></a>容斥 <del>先鸽着吧</del></h2><h1 id="组合计数"><a href="#组合计数" class="headerlink" title="组合计数"></a>组合计数</h1><p>常用公式：</p>
+    <content><![CDATA[<h1 id="组合数"><a href="#组合数" class="headerlink" title="组合数"></a>组合数</h1><h2 id="容斥-先鸽着吧"><a href="#容斥-先鸽着吧" class="headerlink" title="容斥 先鸽着吧"></a>容斥 <del>先鸽着吧</del></h2><p>1.（清华集训 主旋律）给定N个点的有向图，多少个强联通子图     N&lt;=15</p>
+<h4 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h4><p>（图里可能有$$ N^2 $$ 条边）爆搜过不去</p>
+<h5 id="简单问题：给定一个有向图，问有多少个子图是DAG"><a href="#简单问题：给定一个有向图，问有多少个子图是DAG" class="headerlink" title="简单问题：给定一个有向图，问有多少个子图是DAG"></a>简单问题：给定一个有向图，问有多少个子图是DAG</h5><p>DP    $$ f[s] $$表示在点集$S$之间删掉一些边使得剩下的图是一个$DAG$的方案数量</p>
+<p>枚举哪些点的入度为0，然后递归<br>$$<br>f[s]=\sum_{T\subseteq S,T\neq \varnothing} 2^{edges(T,s-T)} \cdot f[S-T]<br>$$<br>但是这个递归式会算重复只保证了T中的入度为0，但是S-T里可能也有入度为0的点，所以就应该使用容斥<br>$$<br>f[s]=\sum_{T\subseteq S,T\neq \varnothing} 2^{edges(T,s-T)} \cdot f[S-T]\cdot (-1)^{|T|-1}<br>$$</p>
+<p>使用这个DP，计算量是$$ 3^N $$, 枚举子集DP复杂度</p>
+<h5 id="原题"><a href="#原题" class="headerlink" title="原题"></a>原题</h5><p>一个图如果不强联通的话，那么他就可以写成大于1个强连通分量连成的DAG</p>
+<p>我们可以使用补集转化</p>
+<p>强联通图的个数=所有图的个数 - 非强连通图的个数</p>
+<p>尝试计算非强连通图的个数，枚举一个 ，让 连成一个强连通图， 不接受来自 </p>
+<p>的边。<br>$$<br>f[s]=ALL(s)-\sum_{T\subseteq S,T\neq \varnothing}a[T]\cdot 2^{ways(T,S-T)}\cdot ALL(s)<br>$$<br>ALL(s)表示所有可能的图的个数，一样不对，会算重</p>
+<p>令 $$ g[T] $$ 表示：把集合T划分成若干块，每一块重连成一个强连通块。如果有奇数个块，产生1的贡献，偶数产生-1的贡献</p>
+<p>​    $$ g[T] $$是所有贡献之和<br>$$<br>f[s]=ALL(s)-\sum_{T\subseteq S,T\neq \varnothing}a[T]\cdot 2^{ways(T,S-T)}\cdot ALL(s)<br>$$<br>怎么算 g？</p>
+<p>递归：给定一个集合S，固定$$ x\in S $$ ，枚举x所在的强连通块：<br>$$<br>g[S]=-\sum_{T\subseteq S ,x\in T}f[T]\cdot g[S-T]<br>$$</p>
+<h1 id="组合计数"><a href="#组合计数" class="headerlink" title="组合计数"></a>组合计数</h1><p>常用公式：</p>
 <h5 id="1-N-choose-K-N-K-N-K"><a href="#1-N-choose-K-N-K-N-K" class="headerlink" title="1.$ {N \choose K}=N!/(K!*(N-K)!)$"></a>1.$ {N \choose K}=N!/(K!*(N-K)!)$</h5><h5 id="2-sum-i-0-N-N-choose-I-2-N"><a href="#2-sum-i-0-N-N-choose-I-2-N" class="headerlink" title="2.$ \sum_{i=0}^{N}{N \choose I}=2^N$"></a>2.$ \sum_{i=0}^{N}{N \choose I}=2^N$</h5><h5 id="3-sum-i-0-N-N-choose-i-1-i-0"><a href="#3-sum-i-0-N-N-choose-i-1-i-0" class="headerlink" title="3.$\sum_{i=0}^{N}{N\choose i}(-1)^i=0$"></a>3.$\sum_{i=0}^{N}{N\choose i}(-1)^i=0$</h5><h5 id="4-sum-N-i-0-N-choose-i-x-i-1-x-N"><a href="#4-sum-N-i-0-N-choose-i-x-i-1-x-N" class="headerlink" title="4.$\sum_{N}^{i=0}{N\choose i}x^i=(1+x)^N$"></a>4.$\sum_{N}^{i=0}{N\choose i}x^i=(1+x)^N$</h5><h5 id="5-范德蒙公式：-sum-i-0-K-N-choose-i-M-choose-K-i-N-M-choose-K-sum-i-0-M-N-choose-i-M-choose-i-sum-i-N-choose-i-M-choose-M-i-N-M-choose-M"><a href="#5-范德蒙公式：-sum-i-0-K-N-choose-i-M-choose-K-i-N-M-choose-K-sum-i-0-M-N-choose-i-M-choose-i-sum-i-N-choose-i-M-choose-M-i-N-M-choose-M" class="headerlink" title="5.范德蒙公式：$\sum_{i=0}^{K}{N\choose i}{M\choose K-i}={N+M\choose K}$        $\sum_{i=0}^{M}{N\choose i}{M\choose i}=\sum_{i}{N\choose i}{M\choose M-i}={N+M\choose M}$"></a>5.范德蒙公式：$\sum_{i=0}^{K}{N\choose i}{M\choose K-i}={N+M\choose K}$        $\sum_{i=0}^{M}{N\choose i}{M\choose i}=\sum_{i}{N\choose i}{M\choose M-i}={N+M\choose M}$</h5><h5 id="6-重要：-N-choose-K-K-choose-i-N-choose-i-N-i-choose-K-i"><a href="#6-重要：-N-choose-K-K-choose-i-N-choose-i-N-i-choose-K-i" class="headerlink" title="6.重要：${N\choose K}{K\choose i}={N\choose i}{N-i\choose K-i}$"></a>6.重要：${N\choose K}{K\choose i}={N\choose i}{N-i\choose K-i}$</h5><p>理解：N个里选出来K个，再从K个之中选出i个，就相当于是在我的N中先选出来i个，再从剩下的N-i个之中选出来K-i个</p>
 <p>经典场景：$\sum_k\sum_if(i){N\choose K}{K\choose i}=\sum_if(i)\sum_K{N\choose i}{N-i\choose K-i}=\sum_if(i){N\choose i}2^{N-i}$</p>
 <h5 id="7-帕斯卡公式：-N-choose-i-N-1-choose-i-1-N-1-choose-i"><a href="#7-帕斯卡公式：-N-choose-i-N-1-choose-i-1-N-1-choose-i" class="headerlink" title="7.帕斯卡公式：${N\choose i}={N-1\choose i-1}+{N-1\choose i}$"></a>7.帕斯卡公式：${N\choose i}={N-1\choose i-1}+{N-1\choose i}$</h5><p>然后就可以推出来：${N+1\choose K+1}=\sum_{i=K}^{N}{i\choose K}$</p>
