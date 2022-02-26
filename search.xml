@@ -107,7 +107,7 @@
 <p>1.在原图的拓扑序上进行 DP，求出 S 到点 x 的路径条数 fs[x]</p>
 <p>2.在返图上再次 DP 计算从点 x 到终点 T 的路径条数 ft[x]<br>显然根据乘法原理： 1.对于一条有向边来说（x，y）若 $fs[x]*fs[y]=fs[T]$，则(x,y)是必经边 2.对于一个点 x，若 $fs[x]*ft[x]=fs[T]$则 x 是必经点</p>
 <h3 id="有向图写完了，就该进行无向图的博客之旅了！（前方道路淤堵。。。请保持好车距。。。）"><a href="#有向图写完了，就该进行无向图的博客之旅了！（前方道路淤堵。。。请保持好车距。。。）" class="headerlink" title="有向图写完了，就该进行无向图的博客之旅了！（前方道路淤堵。。。请保持好车距。。。）"></a>有向图写完了，就该进行无向图的博客之旅了！（前方道路淤堵。。。请保持好车距。。。）</h3><h2 id="无向图"><a href="#无向图" class="headerlink" title="无向图"></a>无向图</h2><p>无向图的知识前端部分比较简单，因为我们有了有向图的基础<br>但是后面就会有一点难咯</p>
-<h3 id="无向图的割点与桥"><a href="#无向图的割点与桥" class="headerlink" title="无向图的割点与桥"></a>无向图的割点与桥</h3><p>给定一张无向连通图<br>若删去其中一个节点和与它相连的所有边之后，这张图分裂成两个或两个以上的不相连的子图，则称 x 为 G 的割点<br>若删去其中一条边之后，这张图分裂成两个不相连的子图，则称 e 为 G 的桥或割边<br>Tarjan 大佬做过的贡献：斐波那契堆（毒瘤东西）、Splay Tree（毒瘤东西）、Lint-Cut Tree（已经被踢出考纲的东西）等。。。</p>
+<h3 id="无向图的割点与桥"><a href="#无向图的割点与桥" class="headerlink" title="无向图的割点与桥"></a>无向图的割点与桥</h3><p>0<br>给定一张无向连通图<br>若删去其中一个节点和与它相连的所有边之后，这张图分裂成两个或两个以上的不相连的子图，则称 x 为 G 的割点<br>若删去其中一条边之后，这张图分裂成两个不相连的子图，则称 e 为 G 的桥或割边<br>Tarjan 大佬做过的贡献：斐波那契堆（毒瘤东西）、Splay Tree（毒瘤东西）、Lint-Cut Tree（已经被踢出考纲的东西）等。。。</p>
 <p><strong>时间戳</strong><br>在图的 dfs 过程中，按照没一个节点第一次被访问的时间顺序进行标记（参照有向图时间戳）</p>
 <p><strong>搜索树</strong><br>参照有向图搜索树（上面有）</p>
 <h4 id="追溯值-1"><a href="#追溯值-1" class="headerlink" title="追溯值"></a>追溯值</h4><p>重要的东西，和有向图有一点点不一样<br>low[x]定义为以下节点的时间戳的最小值：<br>1.subtree(x)中的节点 2.通过 1 条不在搜索树上的边能够到达 subtree(x)的节点<br>初始化：low[x]=dfn[x]<br>如果在搜索树上 x 是 y 的父节点，$low[x]=min(low[x],low[y])$<br>如果(x,y)不是搜索树上的边则 $low[x]=min(low[x],dfn[y])$<br>除了根节点之外，一条边如果不是搜索树上的边，那么这一条边一定能与其他节点构成一个环（树嘛，这个轻轻想想就知道了）</p>
@@ -237,6 +237,248 @@
 <h1 id="撒花-完结-（终于-写完了）"><a href="#撒花-完结-（终于-写完了）" class="headerlink" title="撒花 完结 （终于**写完了）"></a>撒花 完结 （终于**写完了）</h1>]]></content>
       <tags>
         <tag>数据结构</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>常中集训</title>
+    <url>/%E5%B8%B8%E4%B8%AD%E9%9B%86%E8%AE%AD/</url>
+    <content><![CDATA[<h1 id="2-21"><a href="#2-21" class="headerlink" title="2.21"></a>2.21</h1><h2 id="Problem-A：count"><a href="#Problem-A：count" class="headerlink" title="Problem A：count"></a>Problem A：count</h2><blockquote>
+<p>有一张n个点m条边的无向图。记$C_1$为这个图导出子图为 $K_4$的数量 ,$C_2$为补图导出子图为$K_4$的数量 （ $K_4$是4个点的完全图）</p>
+<p>请你求出$C_1-C_2$的值.</p>
+<p>n&lt;=5e4,m&lt;=1e5</p>
+</blockquote>
+<p><strong>前置知识：三元环计数，组合计数（一点点），容斥（思想），<del>脑子</del></strong></p>
+<p>我们考虑这样一件事情：求出C2是很简单的，直接容斥：</p>
+<p>我们设F0为四个点中至少有0条边的方案数，F1，F2……F6（最多6条边）</p>
+<p>那C2不就是F0-F1+F2-F3+F4-F5+F6，然而我们仔细观察会发现……</p>
+<p>F6不就是C1？那我们将式子进行移项就变成了：</p>
+<p>C2-C1=F0-F1+F2-F3+F4-F5，（取个相反数不就行了）</p>
+<p>然后我们转化完题意就可以进行计算了：</p>
+<p><strong>细节看代码，有注释</strong><del>我就口胡一遍</del></p>
+<ul>
+<li><p>$F0$ 就等于N选4</p>
+</li>
+<li><p>$F1$ 就等于一条边，再从剩下的点中随便选出来两个（因为不一定有连边）</p>
+</li>
+<li><p>$F2$ 分两种情况：1.两条边有公共端点 2.没有公共端点，这样也好说，先枚举一条边，寻找与它没有公共端点的边，然后枚举公共点，计算出边</p>
+</li>
+<li><p>$F3$ 分几种情况：1.三元环2.一个点连着三条边3.一条链</p>
+</li>
+<li><p>$F4$ 也好说，1.三元环上连一条边挂上一个点2.四元环</p>
+</li>
+<li><p>$F5$ 需要脑子里想一下：只有一种情况就是两个有公共边的三元环</p>
+</li>
+</ul>
+<h3 id="代码（含注释）"><a href="#代码（含注释）" class="headerlink" title="代码（含注释）"></a>代码（含注释）</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LL long long</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxn = <span class="number">1e5</span> + <span class="number">10</span>;</span><br><span class="line">vector&lt;<span class="keyword">int</span>&gt; G[maxn], g[maxn];</span><br><span class="line"><span class="keyword">int</span> cnt[maxn];</span><br><span class="line"><span class="keyword">int</span> d[maxn];</span><br><span class="line"><span class="keyword">int</span> n, m;</span><br><span class="line"><span class="keyword">int</span> x, y;</span><br><span class="line"><span class="keyword">int</span> X[maxn], Y[maxn];</span><br><span class="line"><span class="keyword">int</span> rk[maxn];</span><br><span class="line"><span class="keyword">int</span> vis[maxn], c[maxn];</span><br><span class="line"><span class="keyword">int</span> id[maxn];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (d[x] == d[y])</span><br><span class="line">        <span class="keyword">return</span> x &gt; y;</span><br><span class="line">    <span class="keyword">return</span> d[x] &lt; d[y];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">LL <span class="title">f0</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1ll</span> * n * (n - <span class="number">1</span>) * (n - <span class="number">2</span>) * (n - <span class="number">3</span>) / <span class="number">24</span>; <span class="comment">// n选4</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">LL <span class="title">f1</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1ll</span> * m * (n - <span class="number">2</span>) * (n - <span class="number">3</span>) / <span class="number">2</span>; <span class="comment">//一条边两端随便选点（不重复</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">LL <span class="title">f2</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    LL res = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m; ++i)</span><br><span class="line">        res += m - (d[X[i]] + d[Y[i]] - <span class="number">1</span>); <span class="comment">//枚举边，寻找与它没有公共点的边</span></span><br><span class="line">    <span class="built_in">assert</span>(res % <span class="number">2</span> == <span class="number">0</span>);                   <span class="comment">//不知道有什么用——johnsonloy</span></span><br><span class="line">    res /= <span class="number">2</span>;                               <span class="comment">//去重</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; ++i)</span><br><span class="line">        res += (n - <span class="number">3</span>) * <span class="number">1ll</span> * d[i] * (d[i] - <span class="number">1</span>) / <span class="number">2</span>; <span class="comment">//有公共点</span></span><br><span class="line">                                                      <span class="comment">//枚举公共点为i，那么两条边连的点方案数就是d[i]*(d[i]-1)/2，由于我们要求的是K4的个数所以还需要乘（n-3）</span></span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">LL <span class="title">f3</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    LL res = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; ++i)</span><br><span class="line">        vis[i] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j : G[i])</span><br><span class="line">        &#123;</span><br><span class="line">            c[j] = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span> (rk[i] &gt; rk[j])</span><br><span class="line">                vis[j] = <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; G[i].<span class="built_in">size</span>(); ++j)</span><br><span class="line">            <span class="keyword">if</span> (rk[i] &gt; rk[x = G[i][j]])</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; G[x].<span class="built_in">size</span>(); ++k)</span><br><span class="line">                    <span class="keyword">if</span> (rk[x] &gt; rk[y = G[x][k]] &amp;&amp; vis[y])</span><br><span class="line">                    &#123;</span><br><span class="line">                        ++res;</span><br><span class="line">                        ++cnt[g[x][k]];</span><br><span class="line">                        ++cnt[g[i][j]];</span><br><span class="line">                        ++c[y];</span><br><span class="line">                    &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; G[i].<span class="built_in">size</span>(); ++j)</span><br><span class="line">            <span class="keyword">if</span> (rk[i] &gt; rk[x = G[i][j]])</span><br><span class="line">                cnt[g[i][j]] += c[x], vis[x] = c[x] = <span class="number">0</span>; <span class="comment">//清空，覆盖次数</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//求三元环的个数，还顺便求了一下每一条边被三元环覆盖的次数</span></span><br><span class="line">    res = res * (n - <span class="number">6</span>); <span class="comment">//第四个点，但是这里是乘的 n-6，是因为后面求链式结构的时候会多算三元环的情况，要减去，就直接加在这里了，这里是不管第四个点和另外三个点有没有边的，因为后面容斥会有减去</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; ++i)</span><br><span class="line">        res += <span class="number">1ll</span> * d[i] * (d[i] - <span class="number">1</span>) * (d[i] - <span class="number">2</span>) / <span class="number">6</span>; <span class="comment">//一个点连向另外三个点的情况（这种情况并不存在重复的情况……</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m; ++i)</span><br><span class="line">        res += <span class="number">1ll</span> * (d[X[i]] - <span class="number">1</span>) * (d[Y[i]] - <span class="number">1</span>); <span class="comment">//一条链的时候，就是一条边的两端点各自找另外一个点</span></span><br><span class="line">                                                    <span class="comment">//减掉三个三元环个数，因为每一个三元环的三条边在统计的时候都会再算一遍三元环，所以要减3</span></span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">LL <span class="title">f4</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    LL res = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">        vis[i] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j : G[i])</span><br><span class="line">            <span class="keyword">if</span> (rk[i] &gt; rk[j])</span><br><span class="line">                vis[j] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j : G[i])</span><br><span class="line">            <span class="keyword">if</span> (rk[i] &gt; rk[j])</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> k : G[j])</span><br><span class="line">                    <span class="keyword">if</span> (rk[j] &gt; rk[k] &amp;&amp; vis[k])</span><br><span class="line">                        res += d[i] + d[j] + d[k] - <span class="number">6</span>; <span class="comment">// 三元环上面挂着一个点的方案数</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j : G[i])</span><br><span class="line">            vis[j] = <span class="number">0</span>; <span class="comment">//清空</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//	cerr &lt;&lt; &quot;res1 &quot; &lt;&lt; res &lt;&lt;&#x27;\n&#x27;;</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; ++i)</span><br><span class="line">        c[i] = <span class="number">0</span>; <span class="comment">//还是清空</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j : G[i])</span><br><span class="line">            <span class="keyword">if</span> (rk[i] &gt; rk[j])</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> k : G[j])</span><br><span class="line">                    <span class="keyword">if</span> (rk[i] &gt; rk[k])</span><br><span class="line">                        res += c[k], ++c[k]; <span class="comment">//四元环计数，两边两条边</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j : G[i])</span><br><span class="line">            <span class="keyword">if</span> (rk[i] &gt; rk[j])</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> k : G[j])</span><br><span class="line">                    c[k] = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">LL <span class="title">f5</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    LL res = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m; i++)</span><br><span class="line">        res += cnt[i] * (cnt[i] - <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">return</span> res; <span class="comment">//这一条边被多少个三元环覆盖了，那么我们就可以直接计算出来五条边是多少方案</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        cin &gt;&gt; X[i] &gt;&gt; Y[i];</span><br><span class="line">        d[X[i]]++, d[Y[i]]++;</span><br><span class="line">        G[X[i]].<span class="built_in">push_back</span>(Y[i]);</span><br><span class="line">        G[Y[i]].<span class="built_in">push_back</span>(X[i]);</span><br><span class="line">        g[X[i]].<span class="built_in">push_back</span>(i);</span><br><span class="line">        g[Y[i]].<span class="built_in">push_back</span>(i);</span><br><span class="line">        <span class="comment">// G是出边，g是点所对的边的编号</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; ++i)</span><br><span class="line">        id[i] = i; <span class="comment">//为了后面排序做准备</span></span><br><span class="line">    <span class="built_in">sort</span>(id + <span class="number">1</span>, id + n + <span class="number">1</span>, cmp);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; ++i)</span><br><span class="line">        rk[id[i]] = i; <span class="comment">//排序</span></span><br><span class="line">                       <span class="comment">//按照边的度数进行排序</span></span><br><span class="line">    LL v0 = <span class="built_in">f0</span>(), ans1 = <span class="built_in">f1</span>(), ans2 = <span class="built_in">f2</span>(), ans3 = <span class="built_in">f3</span>(), ans4 = <span class="built_in">f4</span>(), ans5 = <span class="built_in">f5</span>();</span><br><span class="line">    LL ans = v0 - ans1 + ans2 - ans3 + ans4 - ans5;</span><br><span class="line">    cout &lt;&lt; -ans &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">10 32 3 8 9 10 2 9 1 10 5 8 1 3 2 6 3 6 2 3 7 10 4 7 2 4 3 7 5 7 3 10 1 7 7 9 4 10 8 9 3 9 4 6 2 10 1 9 2 8 4 8 5 6 8 10 6 7 4 9 5 9 4 5 6 9</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Problem-B-geometry"><a href="#Problem-B-geometry" class="headerlink" title="Problem B geometry"></a>Problem B geometry</h2><p>平面几何……算了</p>
+<h2 id="Problem-C-赌怪"><a href="#Problem-C-赌怪" class="headerlink" title="Problem C 赌怪"></a>Problem C 赌怪</h2><p>概率期望，算了</p>
+<h1 id="2-22"><a href="#2-22" class="headerlink" title="2.22"></a>2.22</h1><h2 id="T1-排列"><a href="#T1-排列" class="headerlink" title="T1 排列"></a>T1 排列</h2><blockquote>
+<p>对于一个1,2，…，n的排列a，我们会为它定义一个贡献：</p>
+<p><img src="file:///C:\Users\DEll\AppData\Local\Temp\ksohtml\wpsE5F3.tmp.png" alt="img"></p>
+<p>现在我们会随机生成一个排列，我们希望知道排列的贡献的期望是多少。 </p>
+<p>$n&lt;=1e7,1&lt;=k&lt;=5,1e8&lt;p&lt;2^{31}$</p>
+</blockquote>
+<p><strong>容斥大好题啊！</strong></p>
+<p>首先观察式子，会有贡献的$i$条件就是比两边都小；难点在于那个 k 次幂如何处理。</p>
+<p>可以想象这样一件事，我们将有贡献的$i$单独拿出 ，然后相当于在这些拿出来的位置每次随便选一个，</p>
+<p>如此 k 次，方案数就是那个式子。</p>
+<p>考虑选到的位置组成一个集合，由于可以选择重复的位置，所以集合大小是小于等于 k 的。</p>
+<p>将 ($i,a_i$)投影到平面上，而一个$i$合法就是 / 的形状。</p>
+<p>可以发现形成了类似 …//…///…/… 的形状（称为锯齿形，点代表不选），而每一个最低点就是满足条件的$i$。</p>
+<p>考虑计算出每一串连起来的锯齿形的方案数，然后 dp 拼凑起来计数。</p>
+<p>怎么算 给 $2q+1$个数，将它们填入长度为 $2q+1$的序列并且投影满足锯齿形 的方案数呢？</p>
+<p>很简单。可以发现 $q&lt;=k&lt;=5$，所以在另一个程序打一个暴力就可以算出来了：</p>
+<p>前面是$2q+1$,后面的是$ans$。</p>
+<p>$3:2<del>5:16</del>7:272<del>9:7936</del>11:353792$</p>
+<p>有了这个之后题目就很简单了，我们使用 dp 计算出 $f[i][j][k]~,i,j,k$ 分别表示选择的位置的个数（可能选择重复的位置）（根据youwike所说i也可以说是块数）（代码注释有解释），所有锯齿的总长度，锯齿的数量。</p>
+<p>（上面的是题解的内容）</p>
+<p>代码注释是很全的（总比题解给的全多了）</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> int long long</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxn = <span class="number">20</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxm = <span class="number">1e7</span> + <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> n, k, mod;</span><br><span class="line"><span class="keyword">int</span> f[maxn][maxn][maxn];</span><br><span class="line"><span class="keyword">int</span> inv[maxm], jie[maxm];</span><br><span class="line"><span class="keyword">int</span> num[maxn];</span><br><span class="line"><span class="keyword">int</span> g[] = &#123;<span class="number">0</span>, <span class="number">2</span>, <span class="number">16</span>, <span class="number">272</span>, <span class="number">7936</span>, <span class="number">353792</span>&#125;;</span><br><span class="line"><span class="comment">// g函数代表的是，有i个波谷形状时的方案数</span></span><br><span class="line"><span class="comment">//暴力dp做法：设f[i][j]代表我放了后i个数（从大到小放），总共有j个波谷的方案数，由于我向波谷两旁放置最小的数时波谷数量并不会发生变化，所以不应该在波谷两旁放，然而波谷两旁总共有j*2个位置，所以我们可以从f[i-1][i-2*j]转移，产生贡献</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">qpow</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (y)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (y &amp; <span class="number">1</span>)</span><br><span class="line">            sum = sum * x % mod;</span><br><span class="line">        x = x * x % mod;</span><br><span class="line">        y &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//快速幂</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">C</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (y &gt; x - y)</span><br><span class="line">        y = x - y;</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = x - y + <span class="number">1</span>; i &lt;= x; i++)</span><br><span class="line">        res = res * i % mod;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= y; i++)</span><br><span class="line">        res = res * inv[i] % mod;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//组合数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dp</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    f[<span class="number">0</span>][<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> ku = <span class="number">1</span>; ku &lt;= <span class="number">5</span>; ku++)</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">5</span>; i++) <span class="comment">//块的种类（块最多只有5种</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">2</span> * i + <span class="number">1</span>; j &lt;= <span class="number">15</span>; j++)</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> ge = i; ge &lt;= <span class="number">5</span>; ge++)</span><br><span class="line">                    f[ku][j][ge] = (f[ku][j][ge] + f[ku - <span class="number">1</span>][j - <span class="number">2</span> * i - <span class="number">1</span>][ge - i] * <span class="built_in">C</span>(j, <span class="number">2</span> * i + <span class="number">1</span>) % mod * g[i] % mod) % mod;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">dp的过程：</span></span><br><span class="line"><span class="comment">首先我们设f[ku][j][ge]表示：我们选出ku个块（每一段连续的，首尾相接的V字形为一个块，块的总长度为j，块中总共有ge个V字形的总方案数</span></span><br><span class="line"><span class="comment">那我们的转移就变成了前一个块向当前块转移，然后我们枚举块的种类（一个波谷两个波谷……），2*i+1是块的长度</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    jie[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">100</span>; i++)</span><br><span class="line">        inv[i] = <span class="built_in">qpow</span>(i, mod - <span class="number">2</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">10000000</span>; i++)</span><br><span class="line">        jie[i] = jie[i - <span class="number">1</span>] * i % mod;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//预处理</span></span><br><span class="line"><span class="function"><span class="keyword">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//我们把题目转化为在所有的V字形中选出来k个V字形，可以选重复的的方案数，那么显然就是选一个的方案数的k次方</span></span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; k &gt;&gt; mod;</span><br><span class="line">    <span class="built_in">init</span>();</span><br><span class="line">    <span class="built_in">dp</span>();</span><br><span class="line">    num[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= k; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        num[i] = <span class="built_in">qpow</span>(i, k);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; i; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> ((i - j) &amp; <span class="number">1</span>)</span><br><span class="line">                num[i] = (num[i] - <span class="built_in">C</span>(i, j) * <span class="built_in">qpow</span>(j, k) % mod + mod) % mod;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                num[i] = (num[i] + <span class="built_in">C</span>(i, j) * <span class="built_in">qpow</span>(j, k) % mod + mod) % mod;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//由于我们在进行处理的时候，我们钦定了有i个V字形是必须要选的，那么我们就必须选上这几个V字形，这代表着我们需要进行容斥，如果说我们现在要钦定3个V，但是钦定了5次，那我们就需要容斥一遍，让每一个V都正好被钦定了1次</span></span><br><span class="line">    <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">5</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= <span class="number">15</span>; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> p = <span class="number">1</span>; p &lt;= <span class="number">5</span>; p++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (n &gt;= j)</span><br><span class="line">                &#123;</span><br><span class="line">                    ans = (ans + f[i][j][p] * num[p] % mod * <span class="built_in">C</span>(n, j) % mod * <span class="built_in">C</span>(n - j + i, i) % mod * jie[n - j] % mod) % mod;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//f[i][j][p]代表意义上面dp过程是有的，乘容斥过程的数，C(n,j)代表的是在长度为n的原序列中选出来j的位置，C(n-j+i,i)代表我要将现在的序列插进原来的n-j的序列里的方案数，jie[n-j]是剩下的n-j个数的排列方案</span></span><br><span class="line">    <span class="comment">//由于我们在每一次算数的时候，都是以k次方为限制的，所以我们并不需要担心算重这一回事</span></span><br><span class="line">    cout &lt;&lt; (ans * <span class="built_in">qpow</span>(jie[n], mod - <span class="number">2</span>)) % mod &lt;&lt; endl;<span class="comment">//jie[n]是算期望</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="T2-填数游戏"><a href="#T2-填数游戏" class="headerlink" title="T2 填数游戏"></a>T2 填数游戏</h2><p>……最小直径生成树，算了</p>
+<h2 id="T3-练功"><a href="#T3-练功" class="headerlink" title="T3 练功"></a>T3 练功</h2><p>倒着处理的干活……</p>
+<p>（太长太麻烦的题……）<del>我不是很想写</del></p>
+<blockquote>
+<p>小B有一台巨大的计算机，每当输入一个整数，这台计算机就会输出一个整数。为了理清这台庞大计算机的结构，小B将这台计算机的计算过程分为n个函数，每一个函数都有一个参数s，一开始第i个函数的参数为i 。 </p>
+<p>对于一个带有参数s的函数，如果输入的数为x，那么它会实现以下过程： </p>
+<p>1.如果x不为s的倍数，则将x加1。 </p>
+<p>2.如果x为s的倍数，那么返回 x+s，函数结束。 </p>
+<p>每一个函数输出的数将会成为下一个函数输入的数，计算机输出的数即为第n个函数的返回值。 </p>
+<p>但光是这样并不能真正发挥这台计算机的强大功能，小B希望你能够帮他实现两个操作：</p>
+<p><em>1.</em> <strong>l  r</strong> : 将第<strong>l</strong>个函数到第<strong>r</strong>个函数翻转，注意参数连同函数一起翻转。 </p>
+<p><em>2.</em> <strong>st  c</strong> : 当从第<strong>st</strong>个函数输入一个<strong>c</strong>时，求整个计算机输出的值为多少？</p>
+<p>$0≤c≤min(n^2,10^12);1≤st≤n;1≤l≤r;1≤n≤3*10^6;1≤q≤3000$</p>
+</blockquote>
+<p>听说这个东西要用到整除分块（啊其实还是听youwike说的）</p>
+<p>推 <del>手膜</del> 了20分钟，弄出来一个性质：（在不进行反转的情况下）在进行了一定次数之后，我们输出的结果和我们当前的数的商，在一个区间内不变，可以合并（用整除分块）</p>
+<p>翻转的情况：</p>
+<p>我们可以对一个单调递增，递减的序列进行维护，每一次翻转都只会增加两个新区间</p>
+<p>我们考虑对于一个原来的区间：[L,R]，如果我们输入的是$c_1$,输出的是$c_2$，那么意味着：反转之后输入的是$-C_2$输出的是$-C_3，C_3$是不比$C_1$小的第一个能够被R整除的数</p>
+<p>那么我们倒推，如果第i+1个函数增加x次，那么第i个函数大概会增加$\frac{i+1}{i}*x$次</p>
+<p>也可以进行合并处理所有$\frac{x}{i}$相等的项，种类数不超过20000种（然而我并不会证明）</p>
+<h1 id="2-23"><a href="#2-23" class="headerlink" title="2.23"></a>2.23</h1><p>只会T1</p>
+<h2 id="T1-拆分"><a href="#T1-拆分" class="headerlink" title="T1 拆分"></a>T1 拆分</h2><blockquote>
+<p>现有一整数 <em>n</em>，求满足以下条件的整数序列个数：</p>
+<p>• $a_1 + a_2 + · · · + a_m = n$ </p>
+<p>• $0 &lt; a_1 ≤a_2 ≤ · · · ≤a_m$ </p>
+<p>• $∀i\neq j~~|a_i-a_j|\ge k$ </p>
+<p>• $h_m~ mod~ p = 1$</p>
+<p>$1 ≤ n ≤ 10^6, 0 ≤ k ≤ n, 1 ≤ p ≤ k + 1$</p>
+</blockquote>
+<p><strong>啊我只会90分的做法</strong></p>
+<p>我们看题可以知道，这个序列是递增的，相邻两个数之间的差至少为k</p>
+<p>那么我们考虑一个dp：数的划分</p>
+<p>由于每两个数之间的差至少为k，那么我们先将所有的数减去相应的k*(i-1)</p>
+<p>最后被减去的就是$i*(i-1)*k/2$</p>
+<p>观察发现，如果k&gt;0的话，i绝对不会超过$2*\sqrt{n}$的</p>
+<p>所以最后复杂度就是$n*\sqrt{n}$级别（k=0的时候就是$n^2$</p>
+<p>那么我们进行dp：</p>
+<p>设$f[i][j]$表示前i个数，总和为j，那么我们可以认为$f[i][j]$可以通过$f[i-1][j-1],f[i][j-i]$转移过来</p>
+<p>含义是：我们在这个序列的最后一位上添加上一个1或者将这个数列的所有数+1，事实证明可以遍历所有情况</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxn = <span class="number">1e6</span> + <span class="number">10</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> mod = <span class="number">998244353</span>;</span><br><span class="line"><span class="keyword">int</span> n, k, p;</span><br><span class="line"><span class="keyword">int</span> h[maxn];</span><br><span class="line"><span class="keyword">int</span> f[<span class="number">2</span>][maxn];</span><br><span class="line"><span class="keyword">int</span> ans;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> scan</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line">    <span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">read</span><span class="params">(T &amp;x)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        x = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">char</span> c = <span class="built_in">getchar</span>();</span><br><span class="line">        <span class="keyword">int</span> f = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (; !<span class="built_in">isdigit</span>(c); c = <span class="built_in">getchar</span>())</span><br><span class="line">            f |= c == <span class="string">&#x27;-&#x27;</span>;</span><br><span class="line">        <span class="keyword">for</span> (; <span class="built_in">isdigit</span>(c); c = <span class="built_in">getchar</span>())</span><br><span class="line">            x = x * <span class="number">10</span> + (c ^ <span class="number">48</span>);</span><br><span class="line">        <span class="keyword">if</span> (f)</span><br><span class="line">            x = -x;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span>... Args&gt;</span><br><span class="line">    <span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">read</span><span class="params">(T &amp;x, Args &amp;...args)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="built_in">read</span>(x), <span class="built_in">read</span>(args...);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line">    <span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(T x, <span class="keyword">char</span> ch)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (x &lt; <span class="number">0</span>)</span><br><span class="line">            <span class="built_in">putchar</span>(<span class="string">&#x27;-&#x27;</span>), x = -x;</span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">short</span> st[<span class="number">30</span>], tp;</span><br><span class="line">        <span class="keyword">do</span></span><br><span class="line">            st[++tp] = x % <span class="number">10</span>, x /= <span class="number">10</span>;</span><br><span class="line">        <span class="keyword">while</span> (x);</span><br><span class="line">        <span class="keyword">while</span> (tp)</span><br><span class="line">            <span class="built_in">putchar</span>(st[tp--] | <span class="number">48</span>);</span><br><span class="line">        <span class="built_in">putchar</span>(ch);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> scan;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MOD</span><span class="params">(<span class="keyword">int</span> &amp;x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (x &gt; mod)</span><br><span class="line">        x -= mod;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">read</span>(n, k, p);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; p; i++)</span><br><span class="line">        <span class="built_in">read</span>(h[i]);</span><br><span class="line">    f[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>, now = <span class="number">1</span>; i * (i - <span class="number">1</span>) * k / <span class="number">2</span> + i &lt;= n; i++, now ^= <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> x = i * (i - <span class="number">1</span>) * k / <span class="number">2</span>;</span><br><span class="line">        <span class="built_in">memset</span>(f[now], <span class="number">0</span>, <span class="built_in"><span class="keyword">sizeof</span></span>(f[now]));</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j + x &lt;= n; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">MOD</span>(f[now][j] = (f[now][j - i] + f[now ^ <span class="number">1</span>][j - <span class="number">1</span>]));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (h[i % p])</span><br><span class="line">            ans += f[now][n - x], <span class="built_in">MOD</span>(ans);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">write</span>(ans, <span class="string">&#x27;\n&#x27;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="T2-集合"><a href="#T2-集合" class="headerlink" title="T2 集合"></a>T2 集合</h2><p>值域扫描线一类的东西，题解没看懂……</p>
+<h2 id="T3-网格"><a href="#T3-网格" class="headerlink" title="T3 网格"></a>T3 网格</h2><p>稳定匹配（等我把网络流搞完）</p>
+<h1 id="2-24-（这两天太难了水了一会）"><a href="#2-24-（这两天太难了水了一会）" class="headerlink" title="2.24 （这两天太难了水了一会）"></a>2.24 （这两天太难了水了一会）</h1><p>一道都不会……</p>
+<p>吐槽出题人太喜欢甘雨了。。。出了三道甘雨</p>
+<h2 id="T1-藏弓待用"><a href="#T1-藏弓待用" class="headerlink" title="T1 藏弓待用"></a>T1 藏弓待用</h2><p>动态dp加分块优化空间</p>
+<h2 id="T2-山泽麟迹"><a href="#T2-山泽麟迹" class="headerlink" title="T2 山泽麟迹"></a>T2 山泽麟迹</h2><p>树上的高斯消元……</p>
+<h2 id="T3-降众天华"><a href="#T3-降众天华" class="headerlink" title="T3 降众天华"></a>T3 降众天华</h2><p>高斯整数gcd+平面几何</p>
+<h1 id="2-25"><a href="#2-25" class="headerlink" title="2.25"></a>2.25</h1><p>（其实还没来得及改呢现在马上下课了）（再说了我也不会改啊）</p>
+<h2 id="T1-给国与地震"><a href="#T1-给国与地震" class="headerlink" title="T1 给国与地震"></a>T1 给国与地震</h2><p>启发式合并？还是说可并堆一类的东西</p>
+<h2 id="T2-给国与时光机"><a href="#T2-给国与时光机" class="headerlink" title="T2 给国与时光机"></a>T2 给国与时光机</h2><p>大构造。。。没听懂</p>
+<h2 id="T3-给国与赌场"><a href="#T3-给国与赌场" class="headerlink" title="T3 给国与赌场"></a>T3 给国与赌场</h2><p>集训队学长表示不会做。。。甚至没看懂题解。。。</p>
+]]></content>
+      <tags>
+        <tag>SCZ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>群论</title>
+    <url>/%E7%BE%A4%E8%AE%BA/</url>
+    <content><![CDATA[<h1 id="群论初步-学习笔记"><a href="#群论初步-学习笔记" class="headerlink" title="群论初步 学习笔记"></a>群论初步 学习笔记</h1><h2 id="群-定义"><a href="#群-定义" class="headerlink" title="群 定义"></a>群 定义</h2><p>一个集合被称为群当且仅当它满足以下四个条件：</p>
+<ol>
+<li><p>具有乘法封闭性，即：任意的$a,b\in G,a*b\in G$</p>
+</li>
+<li><p>具有结合律：$(a<em>b)<em>c=a</em>(b</em>c)$，左右乘是两个不一样的定义</p>
+</li>
+<li><p>具有幺元e：对于任意的$a\in G$都有$e<em>a=a,a</em>e=a$还是，左右乘定义并不一样</p>
+</li>
+<li><p>具有逆元：即：对于任意的$a\in G$ 都存在一个inv使得$a<em>inv=e,inv</em>a=e$</p>
+</li>
+</ol>
+<p>普通的以$*$代指</p>
+<p>然而还有另外的就是：一个群并不一定满足交换律 ，但是存在着满足交换律的群，我们称之为Abel群运算符号以$+$代指，幺元记为0</p>
+<ol start="5">
+<li>子群:群G的子集H满足上述四条公理那我们们称之为群G的子群，因此：H$\le$G，并且幺元不变</li>
+</ol>
+<p>陪集分解：群G，子群H，$g\in G$，$gH$为左陪集，$Hg$为右陪集</p>
+<p><strong>子群检验法</strong>（subgroup test）是群G的子集H是子群的充分必要条件：对于所有元素$g\in G,h\in H$只需检查$g^{-1}\cdot h\in H$ 。</p>
+<p>引理：对于任意的$h\in H,g\in G~g\cdot H=g\cdot h\cdot H$</p>
+<p>任意两个陪集aH，bH满足以下两个条件之一</p>
+<ul>
+<li>aH=bH</li>
+<li>$aH\cap bH =\phi$  </li>
+</ul>
+<ol start="6">
+<li><p>拉格朗日定理：对于任意的$g\in G |gH|=|H|,|H|整除于|G|$</p>
+<p>一个群进行陪集分解之后得到的子群个数为$[G:H]$，称为H的指数</p>
+<p>$|G|=[G:H]|H|$</p>
+</li>
+<li><p>对称群/置换群：对于一个集合，我们将其中的元素都用一个${1…|G|}$中的数映射，这些映射是会在复合意义下构成一个群的。记为$S_n$ 以$(a_1,a_2…a_n)$代指这个群中的元素，对称群的映射是可以构成若干个并不会相交的环的叫做轮换</p>
+</li>
+<li><p>群作用：群G和集合X，G*X表示任意的$g\in G~x\in X$二元组$(g,x)$​构成G和X的笛卡尔积。是满足结合律的，</p>
+<p>满足两个条件：$1_G<em>x=x,\forall x\in X$,$g_1</em>(g_2<em>x)=(g_1</em>g_2)*x,\forall g_1,g_2\in G,x\in X$</p>
+<p>几个例子：</p>
+<ul>
+<li><p> ⽐如$S_n ↷ {1,2, ⋯ , ;}$。 </p>
+</li>
+<li><p>再⽐如$G ↷ G$，G对⾃⾝的左乘作⽤。</p>
+</li>
+<li><p>再⽐如$D_n ↷ {ํ有标号的正n边形}$。</p>
+</li>
+<li><p>设L为有标号的正四⾯体，则有：</p>
+</li>
+<li><ul>
+<li>$Isom^+(T)↷ T$; </li>
+</ul>
+</li>
+<li><ul>
+<li>$Isom(T)↷T$ ;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>轨道：首先我们定义一个二元关系：$x-y$（不是减号）就相当于是$\exists g\in G ~gx=y$。这个二元关系显然是一个等价关系（两边同乘逆元），这二元关系一定要满足某一些性质就比如:   </p>
+<ul>
+<li><p>这个二元关系要满足自自相关 </p>
+</li>
+<li><p>$A-B,B-A$两个是需要相互满足的 </p>
+</li>
+<li><p>$A-B,B-C那么C-B$，传递性。那么轨道就是指这个二元关系传递下去之后所形成的一个类似于等价类的东西</p>
+<p> 所以x所在的等价类记为$G_x = O_x = {ax|a ∈ G}$，称为x的轨道</p>
+<p>若X只有一个G轨道，则称G在X上的作用传递或可迁</p>
+</li>
+<li><p>稳定化子：$G_x=Stab_G(x)=(a\in G:ax=x)$成为x的稳定化子，易见Stab(x)是G的一个子群.</p>
+<ol>
+<li><p><strong>幺元</strong>必定在其中</p>
+</li>
+<li><p>$a,b\in Stab_G(x),a<em>b\in Stab_G(x)$。所以*<em>乘法封闭</em></em></p>
+</li>
+<li><p>$1*x=x,g^{-1}<em>g</em>x=g^{-1}x$所以<strong>逆元</strong>也在</p>
+<p>证毕</p>
+</li>
+</ol>
+</li>
+</ul>
+<p>引理：$\forall x\in X,g\in G,Stab_g(gx)=gStab_G(x)g^{-1}$</p>
+</li>
+<li><p>轨道-稳定化子定理：现设有群作用$G↷X$,则$|O_x|=[G:Stab_G(x)]$,进而有$|G|=|Stab_G(x)||O_x|$</p>
+<p>证明:</p>
+<p>设$H=Stab_G(x)&lt;=G$那么我们做G的H-陪集分解：</p>
+<p>$G=a_1H\bigcup a_2H\bigcup a_3H\bigcup…\bigcup a_kH$</p>
+<p>则：$O_x=a_1Hx\bigcup a_2Hx\bigcup a_3Hx\bigcup…\bigcup a_kHx={a_1x,a_2x,a_3x,…,a_kH}$</p>
+<p>故：$|O_x|=k=[G:H]=[G:Stab_G(x)]$</p>
+<p>由$|G|=|Stab_G(x)|[G:Stab_G(x)]$有$|G|=|O_x||Stab_G(x)|$</p>
+</li>
+</ol>
+<h2 id="Burnside’s-Lemma"><a href="#Burnside’s-Lemma" class="headerlink" title="Burnside’s Lemma"></a>Burnside’s Lemma</h2><blockquote>
+<p>定义：设有群作用$G↷ X$ ，则X内的G-轨道数为G中元素的平均不动点个数，即：$\frac{1}{|G|}\sum_{g\in G}|X^g|$,其中，$X^g$表示X在g下的不动点，即：{$x\in X:gx=x$}</p>
+</blockquote>
+<p>例子：现在有个正6边形，需要给每个顶点着⾊，问在旋转同构意义下有多少本质不同的着⾊⽅案。</p>
+<p>我们明确一下我们的群：{$0\degree,60\degree,120\degree,180\degree,240\degree,300\degree$}</p>
+<p>所有的染色方法应该是$2^6$，在旋转$60\degree$的时候应该有一个轨道，就是两种染色方案，120的时候两个轨道，180时3个，240时2个，300时1个，所以总共应该是$\frac{64+2+4+8+4+2}{6}=14$种</p>
+<h2 id="Polya’s-theorem"><a href="#Polya’s-theorem" class="headerlink" title="Pólya’s theorem"></a>Pólya’s theorem</h2><p>具体⽽⾔， $G\le S_n$对于G ↷ {1,2, ⋯ , ;}并且给{1,2, ⋯ , ;}着⾊这种问题，假设颜⾊数为c，则对⼀个排列{$a_i$}来说，记它的轮换个数为k，则它的不动点个数为$c^k$)。  </p>
+<p>事实上，任意⼀个⼤⼩为n的群都同构于$s_n$的⼀个⼦群。（Cayley定理，考虑左乘作⽤)。</p>
+]]></content>
+      <tags>
+        <tag>数学</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>组合数学</title>
+    <url>/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/</url>
+    <content><![CDATA[<h1 id="组合数"><a href="#组合数" class="headerlink" title="组合数"></a>组合数</h1><h2 id="容斥-先鸽着吧"><a href="#容斥-先鸽着吧" class="headerlink" title="容斥 先鸽着吧"></a>容斥 <del>先鸽着吧</del></h2><h1 id="组合计数"><a href="#组合计数" class="headerlink" title="组合计数"></a>组合计数</h1><p>常用公式：</p>
+<h5 id="1-N-choose-K-N-K-N-K"><a href="#1-N-choose-K-N-K-N-K" class="headerlink" title="1.$ {N \choose K}=N!/(K!*(N-K)!)$"></a>1.$ {N \choose K}=N!/(K!*(N-K)!)$</h5><h5 id="2-sum-i-0-N-N-choose-I-2-N"><a href="#2-sum-i-0-N-N-choose-I-2-N" class="headerlink" title="2.$ \sum_{i=0}^{N}{N \choose I}=2^N$"></a>2.$ \sum_{i=0}^{N}{N \choose I}=2^N$</h5><h5 id="3-sum-i-0-N-N-choose-i-1-i-0"><a href="#3-sum-i-0-N-N-choose-i-1-i-0" class="headerlink" title="3.$\sum_{i=0}^{N}{N\choose i}(-1)^i=0$"></a>3.$\sum_{i=0}^{N}{N\choose i}(-1)^i=0$</h5><h5 id="4-sum-N-i-0-N-choose-i-x-i-1-x-N"><a href="#4-sum-N-i-0-N-choose-i-x-i-1-x-N" class="headerlink" title="4.$\sum_{N}^{i=0}{N\choose i}x^i=(1+x)^N$"></a>4.$\sum_{N}^{i=0}{N\choose i}x^i=(1+x)^N$</h5><h5 id="5-范德蒙公式：-sum-i-0-K-N-choose-i-M-choose-K-i-N-M-choose-K-sum-i-0-M-N-choose-i-M-choose-i-sum-i-N-choose-i-M-choose-M-i-N-M-choose-M"><a href="#5-范德蒙公式：-sum-i-0-K-N-choose-i-M-choose-K-i-N-M-choose-K-sum-i-0-M-N-choose-i-M-choose-i-sum-i-N-choose-i-M-choose-M-i-N-M-choose-M" class="headerlink" title="5.范德蒙公式：$\sum_{i=0}^{K}{N\choose i}{M\choose K-i}={N+M\choose K}$        $\sum_{i=0}^{M}{N\choose i}{M\choose i}=\sum_{i}{N\choose i}{M\choose M-i}={N+M\choose M}$"></a>5.范德蒙公式：$\sum_{i=0}^{K}{N\choose i}{M\choose K-i}={N+M\choose K}$        $\sum_{i=0}^{M}{N\choose i}{M\choose i}=\sum_{i}{N\choose i}{M\choose M-i}={N+M\choose M}$</h5><h5 id="6-重要：-N-choose-K-K-choose-i-N-choose-i-N-i-choose-K-i"><a href="#6-重要：-N-choose-K-K-choose-i-N-choose-i-N-i-choose-K-i" class="headerlink" title="6.重要：${N\choose K}{K\choose i}={N\choose i}{N-i\choose K-i}$"></a>6.重要：${N\choose K}{K\choose i}={N\choose i}{N-i\choose K-i}$</h5><p>理解：N个里选出来K个，再从K个之中选出i个，就相当于是在我的N中先选出来i个，再从剩下的N-i个之中选出来K-i个</p>
+<p>经典场景：$\sum_k\sum_if(i){N\choose K}{K\choose i}=\sum_if(i)\sum_K{N\choose i}{N-i\choose K-i}=\sum_if(i){N\choose i}2^{N-i}$</p>
+<h5 id="7-帕斯卡公式：-N-choose-i-N-1-choose-i-1-N-1-choose-i"><a href="#7-帕斯卡公式：-N-choose-i-N-1-choose-i-1-N-1-choose-i" class="headerlink" title="7.帕斯卡公式：${N\choose i}={N-1\choose i-1}+{N-1\choose i}$"></a>7.帕斯卡公式：${N\choose i}={N-1\choose i-1}+{N-1\choose i}$</h5><p>然后就可以推出来：${N+1\choose K+1}=\sum_{i=K}^{N}{i\choose K}$</p>
+<p>​    等价的:${N+1\choose K+1}=\sum_{i=K}^{N}{i\choose i-K}$（要对这个公式敏感一点）</p>
+<p>这个公式有一个巧记的方法：</p>
+<p>我枚举一个i，想象我选的第一个数是第i个，那么我还剩下N-i个物品，我要在这N-i个物品中选取K个，根据加法原理进行加和，就得出了这一个公式</p>
+<p>另一种利用：$\sum_{i=0}^{K}{N+1\choose i}=\sum_i{N\choose i}+{N\choose i-1}=2\sum_{i=0}^{K}{N\choose i}-{N\choose K}$</p>
+<p>可以运用杨辉三角形进行理解：上一行的所有数都向下产生了两倍于自己的贡献值，除了最后一个之外，所以我乘以二再减去末尾</p>
+<p>似乎是另一种变形：$\sum_{k&lt;=n}{r+k\choose k}={r\choose 0}+{r+1\choose 1}+···+{r+n\choose n}={r+n+1\choose n}$，其实相当于上面的那个等价帕斯卡公式</p>
+<p>另一种名字叫做<strong>关于上指标求和</strong>，$\sum_{0&lt;=k&lt;=n}{k\choose m}={n+1\choose m+1},m,n&gt;=0$</p>
+<p>这两个个已通过对称性进行相互推出</p>
+<h5 id="8-重要的一个东西：二项式定理：-x-y-r-sum-k-r-choose-k-x-ky-r-k-整数r-gt-0或者-x-y-lt-1"><a href="#8-重要的一个东西：二项式定理：-x-y-r-sum-k-r-choose-k-x-ky-r-k-整数r-gt-0或者-x-y-lt-1" class="headerlink" title="8.重要的一个东西：二项式定理：$(x+y)^r=\sum_{k}{r\choose k}x^ky^{r-k}$整数r&gt;=0或者$|x/y|&lt;1$"></a>8.重要的一个东西：二项式定理：$(x+y)^r=\sum_{k}{r\choose k}x^ky^{r-k}$整数r&gt;=0或者$|x/y|&lt;1$</h5><p>这个东西的很多特殊值是非常有用的比如1+1,1+(-1)一类的，可以用来推式子(比如容斥呀容斥呀容斥呀什么的……)</p>
+<p>上面前几条性质都是二项式定理的特殊值，所以二项式定理还是很好用的……</p>
+<p>推论：$0^n={n\choose 0}-{n\choose 1}+…+(-1)^n{n\choose n},n&gt;=0$ (有一道题告诉我：同一行的（也就是上指标一样的）奇数二项式之和等于偶数二项式之和)（洛谷P5390数学作业，一个小绿题我做了老半天做不出来太恶心了）<a href="https://www.luogu.com.cn/problem/P5390">题目</a></p>
+<h5 id="9-负数二项式：对于取负数值的n和取正数值的n，其-n-choose-k-之间有一种联系，一般的规则是："><a href="#9-负数二项式：对于取负数值的n和取正数值的n，其-n-choose-k-之间有一种联系，一般的规则是：" class="headerlink" title="9.  负数二项式：对于取负数值的n和取正数值的n，其${n\choose k}$之间有一种联系，一般的规则是："></a>9.  负数二项式：对于取负数值的n和取正数值的n，其${n\choose k}$之间有一种联系，一般的规则是：</h5><p>$$<br>{r\choose k}=(-1)^k{k-r-1\choose k}<br>$$</p>
+<p>我们称之为：<strong>反转上指标</strong></p>
+]]></content>
+      <tags>
+        <tag>数学</tag>
       </tags>
   </entry>
 </search>
