@@ -353,7 +353,7 @@
 <h2 id="Problem-C-赌怪"><a href="#Problem-C-赌怪" class="headerlink" title="Problem C 赌怪"></a>Problem C 赌怪</h2><p>概率期望，算了</p>
 <h1 id="2-22"><a href="#2-22" class="headerlink" title="2.22"></a>2.22</h1><h2 id="T1-排列"><a href="#T1-排列" class="headerlink" title="T1 排列"></a>T1 排列</h2><blockquote>
 <p>对于一个1,2，…，n的排列a，我们会为它定义一个贡献：</p>
-<p><img src="file:///C:\Users\DEll\AppData\Local\Temp\ksohtml\wpsE5F3.tmp.png" alt="img"></p>
+<p><img src="C:\Users\DEll\AppData\Roaming\Typora\typora-user-images\image-20220312191911719.png" alt="image-20220312191911719"></p>
 <p>现在我们会随机生成一个排列，我们希望知道排列的贡献的期望是多少。 </p>
 <p>$n&lt;=1e7,1&lt;=k&lt;=5,1e8&lt;p&lt;2^{31}$</p>
 </blockquote>
@@ -362,8 +362,8 @@
 <p>可以想象这样一件事，我们将有贡献的$i$单独拿出 ，然后相当于在这些拿出来的位置每次随便选一个，</p>
 <p>如此 k 次，方案数就是那个式子。</p>
 <p>考虑选到的位置组成一个集合，由于可以选择重复的位置，所以集合大小是小于等于 k 的。</p>
-<p>将 ($i,a_i$)投影到平面上，而一个$i$合法就是 / 的形状。</p>
-<p>可以发现形成了类似 …//…///…/… 的形状（称为锯齿形，点代表不选），而每一个最低点就是满足条件的$i$。</p>
+<p>将 ($i,a_i$)投影到平面上，而一个$i$合法就是 \/ 的形状。</p>
+<p>可以发现形成了类似 …\/\/…\/\/\/…\/… 的形状（称为锯齿形，点代表不选），而每一个最低点就是满足条件的$i$。</p>
 <p>考虑计算出每一串连起来的锯齿形的方案数，然后 dp 拼凑起来计数。</p>
 <p>怎么算 给 $2q+1$个数，将它们填入长度为 $2q+1$的序列并且投影满足锯齿形 的方案数呢？</p>
 <p>很简单。可以发现 $q&lt;=k&lt;=5$，所以在另一个程序打一个暴力就可以算出来了：</p>
@@ -439,11 +439,11 @@
 <ol>
 <li><p>具有乘法封闭性，即：任意的$a,b\in G,a*b\in G$</p>
 </li>
-<li><p>具有结合律：$(a<em>b)<em>c=a</em>(b</em>c)$，左右乘是两个不一样的定义</p>
+<li><p>具有结合律：$( a * b ) * c = a * ( b * c ) $，左右乘是两个不一样的定义</p>
 </li>
-<li><p>具有幺元e：对于任意的$a\in G$都有$e<em>a=a,a</em>e=a$还是，左右乘定义并不一样</p>
+<li><p>具有幺元e：对于任意的$a\in G$都有$e * a = a , a * e = a$还是，左右乘定义并不一样</p>
 </li>
-<li><p>具有逆元：即：对于任意的$a\in G$ 都存在一个inv使得$a<em>inv=e,inv</em>a=e$</p>
+<li><p>具有逆元：即：对于任意的$a\in G$ 都存在一个inv使得$a * inv = e , inv *a = e$</p>
 </li>
 </ol>
 <p>普通的以$*$代指</p>
@@ -467,7 +467,7 @@
 <li><p>对称群/置换群：对于一个集合，我们将其中的元素都用一个${1…|G|}$中的数映射，这些映射是会在复合意义下构成一个群的。记为$S_n$ 以$(a_1,a_2…a_n)$代指这个群中的元素，对称群的映射是可以构成若干个并不会相交的环的叫做轮换</p>
 </li>
 <li><p>群作用：群G和集合X，G*X表示任意的$g\in G~x\in X$二元组$(g,x)$​构成G和X的笛卡尔积。是满足结合律的，</p>
-<p>满足两个条件：$1_G<em>x=x,\forall x\in X$,$g_1</em>(g_2<em>x)=(g_1</em>g_2)*x,\forall g_1,g_2\in G,x\in X$</p>
+<p>满足两个条件：$ 1_G * x = x , \forall x \in X$,$ g_1 * ( g_2 * x ) = ( g_1 * g_2 ) * x, \forall g_1 , g_2 \in G,x \in X$</p>
 <p>几个例子：</p>
 <ul>
 <li><p> ⽐如$S_n ↷ {1,2, ⋯ , ;}$。 </p>
@@ -502,9 +502,9 @@
 <ol>
 <li><p><strong>幺元</strong>必定在其中</p>
 </li>
-<li><p>$a,b\in Stab_G(x),a<em>b\in Stab_G(x)$。所以*<em>乘法封闭</em></em></p>
+<li><p>$ a , b \in Stab_G ( x ) , a * b \in Stab_G ( x ) $。所以<strong>乘法封闭</strong></p>
 </li>
-<li><p>$1*x=x,g^{-1}<em>g</em>x=g^{-1}x$所以<strong>逆元</strong>也在</p>
+<li><p>$1 * x = x , g ^ { -1 } * g * x = g ^ { -1 } x$所以<strong>逆元</strong>也在</p>
 <p>证毕</p>
 </li>
 </ol>
@@ -525,8 +525,8 @@
 <p>定义：设有群作用$G↷ X$ ，则X内的G-轨道数为G中元素的平均不动点个数，即：$\frac{1}{|G|}\sum_{g\in G}|X^g|$,其中，$X^g$表示X在g下的不动点，即：{$x\in X:gx=x$}</p>
 </blockquote>
 <p>例子：现在有个正6边形，需要给每个顶点着⾊，问在旋转同构意义下有多少本质不同的着⾊⽅案。</p>
-<p>我们明确一下我们的群：{$0\degree,60\degree,120\degree,180\degree,240\degree,300\degree$}</p>
-<p>所有的染色方法应该是$2^6$，在旋转$60\degree$的时候应该有一个轨道，就是两种染色方案，120的时候两个轨道，180时3个，240时2个，300时1个，所以总共应该是$\frac{64+2+4+8+4+2}{6}=14$种</p>
+<p>我们明确一下我们的群：{$0,60, 120,180, 240, 300$}（由于我不会加单位</p>
+<p>所有的染色方法应该是$2^6$，在旋转$60$度的时候应该有一个轨道，就是两种染色方案，120的时候两个轨道，180时3个，240时2个，300时1个，所以总共应该是$\frac{64+2+4+8+4+2}{6}=14$种</p>
 <h2 id="Polya’s-theorem"><a href="#Polya’s-theorem" class="headerlink" title="Pólya’s theorem"></a>Pólya’s theorem</h2><p>具体⽽⾔， $G\le S_n$对于G ↷ {1,2, ⋯ , ;}并且给{1,2, ⋯ , ;}着⾊这种问题，假设颜⾊数为c，则对⼀个排列{$a_i$}来说，记它的轮换个数为k，则它的不动点个数为$c^k$)。  </p>
 <p>事实上，任意⼀个⼤⼩为n的群都同构于$s_n$的⼀个⼦群。（Cayley定理，考虑左乘作⽤)。</p>
 ]]></content>
@@ -568,7 +568,7 @@
 <h5 id="9-负数二项式：对于取负数值的n和取正数值的n，其-n-choose-k-之间有一种联系，一般的规则是："><a href="#9-负数二项式：对于取负数值的n和取正数值的n，其-n-choose-k-之间有一种联系，一般的规则是：" class="headerlink" title="9.  负数二项式：对于取负数值的n和取正数值的n，其${n\choose k}$之间有一种联系，一般的规则是："></a>9.  负数二项式：对于取负数值的n和取正数值的n，其${n\choose k}$之间有一种联系，一般的规则是：</h5><p>$$<br>{r\choose k}=(-1)^k{k-r-1\choose k}<br>$$</p>
 <p>我们称之为：<strong>反转上指标</strong></p>
 <h5 id="10-lucas定理"><a href="#10-lucas定理" class="headerlink" title="10. lucas定理"></a>10. lucas定理</h5><p>（我竟然把lucas放到了第十个）</p>
-<p>对于p是质数的情况<br>$$<br>{n\choose m}<del>mod</del>p={n<del>mod</del>p\choose m<del>mod</del>p}*({n<del>/</del>p\choose m<del>/</del>p})<del>mod</del>p<br>$$</p>
+<p>对于p是质数的情况<br>$$<br>{n\choose m}\bmod p={n\bmod p\choose m\bmod p}*({n/p\choose m/p})\bmod p<br>$$</p>
 <p>证明的过程我确实是不会。。。 （听说要用到生成函数知识）（以后再说）</p>
 <p>lucas定理其实直接背过就可以了不需要理解    <del>因为根本理解不了</del></p>
 <p>既然有了p是质数的情况，那么就应该有p不是质数的情况了吧：</p>
@@ -576,8 +576,8 @@
 <p>我们在学习数论的时候是知道了一个东西叫做中国剩余定理的（简称韩信点兵<del>小学奥数</del>）</p>
 <p>那么我们可以把p分解质因数，（由唯一分解定理</p>
 <p>那么我们一定可以把p分解成若干个质数的多少次方相乘的形式</p>
-<p>比如：$p={p_1}^{c_1}<em>{p_2}^{c_2}</em>…*{p_k}^{c_k}$</p>
-<p>那么我们求出${n\choose m}<del>mod</del>{p_1}^{c_1}$以及剩下的p2,p3…啊自用中国剩余定理合并一下就可以</p>
+<p>比如：$p={p_1}^{c_1} * {p_2}^{c_2}  * … *  {p_k}^s{c_k}$</p>
+<p>那么我们求出${n\choose m}\bmod {p_1} ^ {c_1}$以及剩下的p2,p3…啊自用中国剩余定理合并一下就可以</p>
 <p>但是在求得时候我们应该怎么求出来每一个式子呢？</p>
 <p>我们把${n\choose m}$中$m!，n-m!，n!$中包含着$p_1$的项提出来，我们假设x为n！中是$p_1$的倍数的项，然后把它们提出来，变成这个样子：</p>
 <p>$$<br>{n\choose m}\bmod{p_1}^{c_1} = \frac{\frac{n!}{ {p_1} ^ {x} } } {\frac{m! } { {p_1} ^ {y} }\frac{n-m!}{ {p_1 } ^ { z } } } * { p_1 } ^ { x-y-z } \bmod { p_1 } ^ { c_1 }<br>$$</p>
@@ -667,7 +667,7 @@
 <p>那我们其实只要dp一下就可以了</p>
 <p>设f[i]为以i为根的小根堆的方案数</p>
 <p>那么f[i]是可以通过来求出左右子树来进行方案数的排列的</p>
-<p>$[i]=f[i&lt;&lt;1]<em>f[(i&lt;&lt;1)|1]</em>{siz[i]-1\choose siz[i&lt;&lt;1]}$</p>
+<p>$f[i]=f[ i &lt;&lt; 1 ] * f[ (i&lt;&lt;1) | 1 ] * { siz[i] - 1 \choose  siz[ i&lt;&lt;1 ] }$</p>
 <p>就是把左右两边的数进行了一下排列而已，选择一下左子树选那几个数字（只要确定了选哪几个数字方案数就确定了</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> int long long</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxn = <span class="number">1e7</span> + <span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> f[maxn * <span class="number">2</span>], n, mod, jie[maxn], siz[maxn];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">qpow</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y, <span class="keyword">int</span> mod)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ans = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (y)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (y &amp; <span class="number">1</span>)</span><br><span class="line">            ans *= x;</span><br><span class="line">        ans %= mod;</span><br><span class="line">        (x *= x) %= mod;</span><br><span class="line">        y &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">inv</span><span class="params">(<span class="keyword">int</span> now)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">qpow</span>(jie[now], mod - <span class="number">2</span>, mod) % mod;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">C</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span> m)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n &lt; m)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> jie[n] * <span class="built_in">inv</span>(m) % mod * <span class="built_in">inv</span>(n - m) % mod;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">lucas</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span> m)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n &lt; mod &amp;&amp; m &lt; mod)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">C</span>(n, m);</span><br><span class="line">    <span class="keyword">if</span> (!m)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">C</span>(n % mod, m % mod) * <span class="built_in">lucas</span>(n / mod, m / mod) % mod;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> ONLINE_JUDGE</span></span><br><span class="line">    <span class="built_in">freopen</span>(<span class="string">&quot;in.txt&quot;</span>, <span class="string">&quot;r&quot;</span>, stdin);</span><br><span class="line">    <span class="built_in">freopen</span>(<span class="string">&quot;out.txt&quot;</span>, <span class="string">&quot;w&quot;</span>, stdout);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; mod;</span><br><span class="line">    jie[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; ++i)</span><br><span class="line">        jie[i] = (jie[i - <span class="number">1</span>] * i) % mod;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = n; i &gt;= <span class="number">1</span>; i--)</span><br><span class="line">    &#123;</span><br><span class="line">        siz[i]++;</span><br><span class="line">        siz[i / <span class="number">2</span>] += siz[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = n; i &gt;= <span class="number">1</span>; i--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (((i &lt;&lt; <span class="number">1</span>) | <span class="number">1</span>) &gt; n)</span><br><span class="line">        &#123;</span><br><span class="line">            f[i] = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        f[i] = f[i &lt;&lt; <span class="number">1</span>] * f[(i &lt;&lt; <span class="number">1</span>) | <span class="number">1</span>] % mod * <span class="built_in">lucas</span>(siz[i] - <span class="number">1</span>, siz[(i &lt;&lt; <span class="number">1</span>)]);</span><br><span class="line">        f[i] %= mod;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; f[<span class="number">1</span>] &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 

@@ -55,7 +55,7 @@
   isHome: true,
   isHighlightShrink: true,
   isToc: false,
-  postUpdate: '2022-03-12 19:10:26'
+  postUpdate: '2022-03-12 19:33:56'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -190,11 +190,11 @@ $F3$ 分几种 ...</div></div></div><div class="recent-post-item"><div class="po
 
 具有乘法封闭性，即：任意的$a,b\in G,a*b\in G$
 
-具有结合律：$(ab)c=a(bc)$，左右乘是两个不一样的定义
+具有结合律：$( a * b ) * c = a * ( b * c ) $，左右乘是两个不一样的定义
 
-具有幺元e：对于任意的$a\in G$都有$ea=a,ae=a$还是，左右乘定义并不一样
+具有幺元e：对于任意的$a\in G$都有$e * a = a , a * e = a$还是，左右乘定义并不一样
 
-具有逆元：即：对于任意的$a\in G$ 都存在一个inv使得$ainv=e,inva=e$
+具有逆元：即：对于任意的$a\in G$ 都存在一个inv使得$a * inv = e , inv *a = e$
 
 
 普通的以$*$代指
@@ -204,8 +204,7 @@ $F3$ 分几种 ...</div></div></div><div class="recent-post-item"><div class="po
 
 陪集分解：群G，子群H，$g\in G$，$gH$为左陪集，$Hg$为右陪集
 子群检验法（subgroup test）是群G的子集H是子群的充分必要条件：对于所有元素$g\in G,h\in H$只需检查$g^{-1}\cdot h\in H$ 。
-引理：对于任意的$h\in H,g\in G~g\cdot H=g\cdot h\cdot H$
-任意 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/tarjan/" title="tarjan">     <img class="post_bg" src="/img/11.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="tarjan"></a></div><div class="recent-post-info"><a class="article-title" href="/tarjan/" title="tarjan">tarjan</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-01-09T07:27:22.000Z" title="发表于 2022-01-09 15:27:22">2022-01-09</time></span></div><div class="content">花了 3-4 天的时间干掉了这个算法：tarjan（虽然只是干掉了板子）有向图我刚开始学了一天的无向图，看懂了板子之后，机房大佬告诉我先学有向图的比较好……然后就开始学有向图……有向图 tarjan 的内容比较少，只有强连通分量，缩点，必经点和必经边
+引理：对于任意的$ ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/tarjan/" title="tarjan">     <img class="post_bg" src="/img/11.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="tarjan"></a></div><div class="recent-post-info"><a class="article-title" href="/tarjan/" title="tarjan">tarjan</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-01-09T07:27:22.000Z" title="发表于 2022-01-09 15:27:22">2022-01-09</time></span></div><div class="content">花了 3-4 天的时间干掉了这个算法：tarjan（虽然只是干掉了板子）有向图我刚开始学了一天的无向图，看懂了板子之后，机房大佬告诉我先学有向图的比较好……然后就开始学有向图……有向图 tarjan 的内容比较少，只有强连通分量，缩点，必经点和必经边
 前置定义给定一个有向图，如果在这个有向图中存在一个点，从它出发可以到达图中所有的点，那么称这个图为：流图我们在这个流图上进行 dfs，每个点访问一次，所有的访问的点和边构成一棵树，我们称之为搜索树同时，在 dfs 的过程中，我们搜到每一个点的顺序（1-N），我们把这个点按照这个顺序进行标记，这个标记我们规定它为时间戳，记为 dfn[x]流图中的每一条有向边(x,y)都必然是以下四种之一： 1.树枝边：搜索树中的边，即：x 是 y 的父节点 2.前向边：x 是 y 的祖先节点但不是父节点 3.后向边：y 是 x 的祖先节点 4.横叉边：（就是除了这三种情况的边）这条边一定满足：$dfn[y] &lt; dfn[x]$;（因为如果 dfn[x] &lt; dfn[y]的话，y 就会成为 x 的子节点）
 强连通分量强联通：存在路径 x-&gt; ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/%E7%BA%BF%E6%AE%B5%E6%A0%91/" title="线段树">     <img class="post_bg" src="/img/11.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="线段树"></a></div><div class="recent-post-info"><a class="article-title" href="/%E7%BA%BF%E6%AE%B5%E6%A0%91/" title="线段树">线段树</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-12-25T12:10:28.000Z" title="发表于 2021-12-25 20:10:28">2021-12-25</time></span></div><div class="content">一个可以累死人的数据结构线段树（仅限于基础的那个）（zx 树这种的以后再说）线段树是一个神奇的数据结构，他基本上什么区间操作都可以优化
 这里讲一些基本的操作：单点修改，区间查询，区间修改（延迟标记）
