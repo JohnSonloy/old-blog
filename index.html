@@ -55,7 +55,7 @@
   isHome: true,
   isHighlightShrink: true,
   isToc: false,
-  postUpdate: '2022-02-28 11:41:10'
+  postUpdate: '2022-03-12 19:10:26'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -159,14 +159,14 @@
 
 剩余容量：最大流量-实际流量
 我们可以将网络流形象地比作一个下水道系统（原谅我这个不太恰当的比喻），我们从城市的废水系统处接受总的水流（无限大），接收到源点，系统中分布着很多的管道，但是管道们有粗有细，有长有短，所以它们的极限流量不一样，我们要将废水运至汇点进行处理，那么我们就需要求出网络中的水流大小（汇点可 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/" title="组合数学">     <img class="post_bg" src="/img/11.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="组合数学"></a></div><div class="recent-post-info"><a class="article-title" href="/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/" title="组合数学">组合数学</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-02-26T10:35:27.000Z" title="发表于 2022-02-26 18:35:27">2022-02-26</time></span></div><div class="content">组合数容斥 先鸽着吧1.（清华集训 主旋律）给定N个点的有向图，多少个强联通子图     N&lt;=15
-解法（图里可能有$$ N^2 $$ 条边）爆搜过不去
-简单问题：给定一个有向图，问有多少个子图是DAGDP    $$ f[s] $$表示在点集$S$之间删掉一些边使得剩下的图是一个$DAG$的方案数量
+解法（图里可能有$ N^2 $ 条边）爆搜过不去
+简单问题：给定一个有向图，问有多少个子图是DAGDP    $ f[s] $表示在点集$S$之间删掉一些边使得剩下的图是一个$DAG$的方案数量
 枚举哪些点的入度为0，然后递归$$f[s]=\sum_{T\subseteq S,T\neq \varnothing} 2^{edges(T,s-T)} \cdot f[S-T]$$但是这个递归式会算重复只保证了T中的入度为0，但是S-T里可能也有入度为0的点，所以就应该使用容斥$$f[s]=\sum_{T\subseteq S,T\neq \varnothing} 2^{edges(T,s-T)} \cdot f[S-T]\cdot (-1)^{|T|-1}$$
-使用这个DP，计算量是$$ 3^N $$, 枚举子集DP复杂度
+使用这个DP，计算量是$ 3^N $, 枚举子集DP复杂度
 原题一个图如果不强联通的话，那么他就可以写成大于1个强连通分量连成的DAG
 我们可以使用补集转化
 强联通图的个数=所有图的个数 - 非强连通图的个数
-尝试 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/%E5%B8%B8%E4%B8%AD%E9%9B%86%E8%AE%AD/" title="常中集训">     <img class="post_bg" src="/img/11.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="常中集训"></a></div><div class="recent-post-info"><a class="article-title" href="/%E5%B8%B8%E4%B8%AD%E9%9B%86%E8%AE%AD/" title="常中集训">常中集训</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-02-25T11:45:42.000Z" title="发表于 2022-02-25 19:45:42">2022-02-25</time></span></div><div class="content">2.21Problem A：count
+尝试计算非强连通 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/%E5%B8%B8%E4%B8%AD%E9%9B%86%E8%AE%AD/" title="常中集训">     <img class="post_bg" src="/img/11.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="常中集训"></a></div><div class="recent-post-info"><a class="article-title" href="/%E5%B8%B8%E4%B8%AD%E9%9B%86%E8%AE%AD/" title="常中集训">常中集训</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-02-25T11:45:42.000Z" title="发表于 2022-02-25 19:45:42">2022-02-25</time></span></div><div class="content">2.21Problem A：count
 有一张n个点m条边的无向图。记$C_1$为这个图导出子图为 $K_4$的数量 ,$C_2$为补图导出子图为$K_4$的数量 （ $K_4$是4个点的完全图）
 请你求出$C_1-C_2$的值.
 n&lt;=5e4,m&lt;=1e5
